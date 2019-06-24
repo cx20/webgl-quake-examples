@@ -4565,7 +4565,7 @@ img.onload = function() {
     }, false );
 };
 
-img.src = "heightmap.png"; // heightMap.png
+img.src = "heightMap.png"; // heightMap.png
 
 function plot(scene, dataSet) {
     uniforms = {
