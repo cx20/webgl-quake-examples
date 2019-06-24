@@ -1,21 +1,19 @@
-﻿var gui;
-var scene;
-var camera;
-var renderer;
-var controls;
-var particleSystem;
-var uniforms;
-var engine;
-var clock = new THREE.Clock();
-var width = window.innerWidth - 2;
-var height = window.innerHeight - 2;
-//var MAP = "/assets/S/h/v/7/Shv7d.jpg"; // 空撮写真
-//var MAP = "map.jpg"; // 空撮写真
+﻿let gui;
+let scene;
+let camera;
+let renderer;
+let controls;
+let particleSystem;
+let uniforms;
+let engine;
+let clock = new THREE.Clock();
+let width = window.innerWidth - 2;
+let height = window.innerHeight - 2;
 var MAP = "map_001.jpg"; // 空撮写真
 var WIREFRAME = true;
-var ROTATE = true;
+var ROTATE = false;
 
-var dataSet = [
+let dataSet = [
 {date:'2018/09/06 03:07:59', lat:42.691, long:142.007, dep:37, mag:6.7},
 {date:'2018/09/06 03:10:21', lat:42.716, long:142.022, dep:40.9, mag:4.3},
 {date:'2018/09/06 03:11:09', lat:42.558, long:141.949, dep:30.7, mag:4.5},
@@ -1694,82 +1692,72 @@ var dataSet = [
 // heightMap より標高データを取得する
 // 参考：http://danni-three.blogspot.jp/2013/09/threejs-heightmaps.html
 function getHeightData(img) {
-    var canvas = document.createElement("canvas");
+    let canvas = document.createElement("canvas");
     canvas.width = img.width;
     canvas.height = img.height;
-    var context = canvas.getContext("2d");
+    let context = canvas.getContext("2d");
 
-    var size = img.width * img.height;
-    var data = new Float32Array(size);
+    let size = img.width * img.height;
+    let data = new Float32Array(size);
 
     context.drawImage(img, 0, 0);
 
-    var imgd = context.getImageData(0, 0, img.width, img.height);
-    var pix = imgd.data;
+    let imgd = context.getImageData(0, 0, img.width, img.height);
+    let pix = imgd.data;
 
-    var j = 0;
-    for (var i = 0; i < pix.length; i += 4) {
-        var k = 1.5; // 起伏の強調度
-        //var k = 0.5; // 起伏の強調度
-        var height = (pix[i] + pix[i + 1] + pix[i + 2])/3 * 1/16 * k;
+    let j = 0;
+    for (let i = 0; i < pix.length; i += 4) {
+        let k = 1.5; // 起伏の強調度
+        //let k = 0.5; // 起伏の強調度
+        let height = (pix[i] + pix[i + 1] + pix[i + 2])/3 * 1/16 * k;
         data[j++] = height;
     }
 
     return data;
 }
 
-var img = new Image();
+let img = new Image();
 img.onload = function() {
 
     scene = new THREE.Scene();
     scene.add(new THREE.AmbientLight(0xffffff));
-
-    camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.set(0, -100, 100);
 
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(width, height);
 
     //camera
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-    //camera.position.y = 100;
-    //camera.position.z = 400;
-    camera.position.y = 200;
+    camera.position.y = 400;
     camera.position.z = 800;
 
     controls = new THREE.OrbitControls( camera, renderer.domElement );
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.25;
-    controls.enableZoom = false;
-
     controls.autoRotate = ROTATE;     // true:自動回転する,false:自動回転しない
-    controls.autoRotateSpeed = 2.0; // 自動回転する時の速度
 
     // heightMap より標高データを取得
-    var data = getHeightData(img);
+    let data = getHeightData(img);
 
     // 標高データを元に地形を生成
-    var scale = 4; // メッシュの細かさを調整
-    var x1 = 800; // 128;
-    var y1 = 800; // 128;
-    var x2 = 256/scale;
-    var y2 = 256/scale;
-    var geometry = new THREE.PlaneGeometry(x1, y1, x2 - 1, y2 - 1);
-    for (var i = 0; i < geometry.vertices.length; i++) {
-        var k = Math.floor(i / x2);
-        var j = 256 * k * scale + (i % y2) * scale;
+    let scale = 4; // メッシュの細かさを調整
+    let x1 = 800; // 128;
+    let y1 = 800; // 128;
+    let x2 = 256/scale;
+    let y2 = 256/scale;
+    let geometry = new THREE.PlaneGeometry(x1, y1, x2 - 1, y2 - 1);
+    for (let i = 0; i < geometry.vertices.length; i++) {
+        let k = Math.floor(i / x2);
+        let j = 256 * k * scale + (i % y2) * scale;
         geometry.vertices[i].z = data[j];
     }
 
     // テクスチャを貼り付け
-    var material = new THREE.MeshPhongMaterial({
+    let material = new THREE.MeshPhongMaterial({
         map: THREE.ImageUtils.loadTexture(MAP),
         transparent: true,        // 半透明合成のパラメータ
         blending: THREE.NormalBlending,  // 半透明合成の方法
         opacity: 0.5,                    // 透明度
         wireframe: WIREFRAME
     });
-    var plane = new THREE.Mesh(geometry, material);
+    let plane = new THREE.Mesh(geometry, material);
     
     // 座標回転
     plane.rotation.x = Math.PI / -2; // 90度回転（地面を上向きに設定）
@@ -1782,11 +1770,11 @@ img.onload = function() {
 
     // GUI
     gui = new dat.GUI();
-    var mapSelector = gui.add(window, 'MAP', {
+    let mapSelector = gui.add(window, 'MAP', {
         "空撮写真": "map_001.jpg",
     });
-    var mapWireframe = gui.add(window, 'WIREFRAME').name('Wireframe');
-    var mapRotate = gui.add(window, 'ROTATE').name('Rotate');
+    let mapWireframe = gui.add(window, 'WIREFRAME').name('Wireframe');
+    let mapRotate = gui.add(window, 'ROTATE').name('Rotate');
 
     mapSelector.onChange(function (value) {
         plane.material.map = THREE.ImageUtils.loadTexture(value);
@@ -1819,7 +1807,7 @@ function plot(scene, dataSet) {
     };
 
 
-    var shaderMaterial = new THREE.ShaderMaterial( {
+    let shaderMaterial = new THREE.ShaderMaterial( {
         uniforms:       uniforms,
         vertexShader:   document.getElementById( 'vertexshader' ).textContent,
         fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
@@ -1829,13 +1817,13 @@ function plot(scene, dataSet) {
     });
 
     geometry = new THREE.BufferGeometry();
-    var particles = dataSet.length;
-    var positions = new Float32Array( particles * 3 );
-    var colors = new Float32Array( particles * 3 );
-    var sizes = new Float32Array( particles );
-    var color = new THREE.Color();
-    for ( var i = 0, i3 = 0; i < particles; i ++, i3 += 3 ) {
-        var data = dataSet[i];
+    let particles = dataSet.length;
+    let positions = new Float32Array( particles * 3 );
+    let colors = new Float32Array( particles * 3 );
+    let sizes = new Float32Array( particles );
+    let color = new THREE.Color();
+    for ( let i = 0, i3 = 0; i < particles; i ++, i3 += 3 ) {
+        let data = dataSet[i];
         // 表示範囲
         // 経度：129.5600～132.3480
         // 緯度：31.7100～34.0500
@@ -1843,17 +1831,17 @@ function plot(scene, dataSet) {
         // 経度：140.4200～142.8000
         // 緯度：42.0600～43.8260
         
-        //var x = ((data.long - 130.9540)/2.788)*800;
-        //var z = (-(data.lat - 32.8800)/2.34)*800;
+        //let x = ((data.long - 130.9540)/2.788)*800;
+        //let z = (-(data.lat - 32.8800)/2.34)*800;
 
-        //var x = ((data.long - 140)/2.788)*800;
-        //var z = (-(data.lat - 42)/2.34)*800;
+        //let x = ((data.long - 140)/2.788)*800;
+        //let z = (-(data.lat - 42)/2.34)*800;
 
-        var x = ((data.long - 141.61)/2.38)*800;
-        var z = (-(data.lat - 42.943)/1.766)*800;
+        let x = ((data.long - 141.61)/2.38)*800;
+        let z = (-(data.lat - 42.943)/1.766)*800;
 
-        var y = -(data.dep*5);
-        var w = (data.mag) * 5;
+        let y = -(data.dep*5);
+        let w = (data.mag) * 5;
         positions[ i3 + 0 ] = x;
         positions[ i3 + 1 ] = y;
         positions[ i3 + 2 ] = z;
@@ -1879,26 +1867,26 @@ function plot(scene, dataSet) {
 }
 
 function drawMatrix(scene) {
-    //for (var long = 129.5600; long <= 132.3480; long += 0.2788/2) {
-    for (var long = (129.5600+10); long <= (132.3480+10); long += 0.2788/2) {
-        var geometry = new THREE.Geometry();
-        var x = ((long - (130.9540+10))/2.788)*800;
+    //for (let long = 129.5600; long <= 132.3480; long += 0.2788/2) {
+    for (let long = (129.5600+10); long <= (132.3480+10); long += 0.2788/2) {
+        let geometry = new THREE.Geometry();
+        let x = ((long - (130.9540+10))/2.788)*800;
         geometry.vertices.push(new THREE.Vector3(x,0,-400));
         geometry.vertices.push(new THREE.Vector3(x,0,400));
-        var material = new THREE.LineBasicMaterial({color: 0xff0000});
-        var line = new THREE.Line(geometry, material);
+        let material = new THREE.LineBasicMaterial({color: 0xff0000});
+        let line = new THREE.Line(geometry, material);
         scene.add(line);
     }
 
-    //for (var lat = 31.7100; lat <= 34.0500; lat += 0.2340/2) {
-    for (var lat = (31.7100+10); lat <= (34.0500+10); lat += 0.2340/2) {
-        var geometry = new THREE.Geometry();
-        //var z = (-(lat - 32.8800)/2.34)*800;
-        var z = (-(lat - (32.8800+10))/2.34)*800;
+    //for (let lat = 31.7100; lat <= 34.0500; lat += 0.2340/2) {
+    for (let lat = (31.7100+10); lat <= (34.0500+10); lat += 0.2340/2) {
+        let geometry = new THREE.Geometry();
+        //let z = (-(lat - 32.8800)/2.34)*800;
+        let z = (-(lat - (32.8800+10))/2.34)*800;
         geometry.vertices.push(new THREE.Vector3(-400,0,z));
         geometry.vertices.push(new THREE.Vector3(400,0,z));
-        var material = new THREE.LineBasicMaterial({color: 0xff0000});
-        var line = new THREE.Line(geometry, material);
+        let material = new THREE.LineBasicMaterial({color: 0xff0000});
+        let line = new THREE.Line(geometry, material);
         scene.add(line);
     }
 }
@@ -1913,17 +1901,17 @@ function animate() {
 
 }
 
-var pos = 0;
+let pos = 0;
 function render() {
 
-    var particles = dataSet.length;
+    let particles = dataSet.length;
     if ( pos > particles ) {
         pos = 0; // 時間軸の位置
     }
-    var sizes = geometry.attributes.size.array;
-    var near = 0; // 時間軸からの近さ
-    var mag = 0; // マグニチュード
-    for (var i = 0; i < particles; i++) {
+    let sizes = geometry.attributes.size.array;
+    let near = 0; // 時間軸からの近さ
+    let mag = 0; // マグニチュード
+    for (let i = 0; i < particles; i++) {
         sizes[i] = 0;
         near = Math.abs(i - pos);
         mag = dataSet[i].mag;
@@ -1939,7 +1927,7 @@ function render() {
         }
     }
     geometry.attributes.size.needsUpdate = true;
-    var element = document.getElementById("time");
+    let element = document.getElementById("time");
     element.innerHTML = dataSet[pos].date;
     pos += 5;
     
