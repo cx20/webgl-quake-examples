@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" /><title>新燃岳周辺の震度データを可視化してみる</title>
+<meta name="Description" content="jsdo.it - share JavaScript, HTML5 and CSS - " />
+<meta name="Keywords"  content="JavaScript,HTML5,CSS" />
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" type="text/css" media="screen,print" href="style.css" />
+
+<!--
+正確な情報については各情報提供元を参照願います。
+
+＜対応した点＞
+・Three.js の THREE.Points を使用して震源データ（約100件）をプロットするよう対応。
+・震度データは防災科学技術研究所のHi-netのものを使用
+
+＜情報源＞
+3Dデータ：国土地理院
+通常地図：国土地理院
+空撮写真：Google, ZENRIN
+
+＜震度データ＞
+防災科学技術研究所 Hi-net 高感度地震観測網 気象庁一元化処理 震源リスト
+期間：2018/05/02 00:00 - 2018/05/02 23:59
+震源情報は，国立大学， 防災科研等の地震観測データを気象庁が収集し一元的に処理して得られた結果です。 
+
+＜参考＞
+■ 新燃岳北側 火山性地震急増で注意呼びかけ 気象庁 - NHKニュース
+https://www3.nhk.or.jp/news/html/20180503/k10011426111000.html
+
+■ 九州付近の地図に震度データを合成してみる（その２）
+http://jsdo.it/cx20/qkX4
+■ 防災科学技術研究所 Hi-net 高感度地震観測網（データダウンロードは要ユーザー登録）
+http://www.hinet.bosai.go.jp/?LANG=ja
+-->
+
+</head>
+<body>
+
+<!-- three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.js"></script>
+ 
+<!-- OrbitControls.js -->
+<script src="https://rawcdn.githack.com/mrdoob/three.js/r104/examples/js/controls/OrbitControls.js"></script>
+
+<script src="https://cdn.rawgit.com/squarefeet/ShaderParticleEngine/ecc2886c/build/SPE.js"></script>
+
+<!-- dat.GUI.js -->
+<script src="https://cdn.rawgit.com/mrdoob/three.js/r76/examples/js/libs/dat.gui.min.js"></script>
+
+<script type="x-shader/x-vertex" id="vertexshader">
+attribute float size;
+attribute vec3 customColor;
+varying vec3 vColor;
+void main() {
+    vColor = customColor;
+    vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+    gl_PointSize = size * ( 300.0 / -mvPosition.z );
+    gl_Position = projectionMatrix * mvPosition;
+}
+</script>
+<script type="x-shader/x-fragment" id="fragmentshader">
+uniform vec3 color;
+uniform sampler2D texture;
+varying vec3 vColor;
+void main() {
+    gl_FragColor = vec4( color * vColor, 1.0 );
+    gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
+}
+</script>
+<div id="container"></div>
+<p id="time" style="color:#ff0000; position:absolute; left:0px; top:0px;"></p>
+
+<script src="./index.js"></script>
+
+<body>
+</html>
