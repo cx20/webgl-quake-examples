@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" /><title>熊本周辺の震度データ１カ月分を可視化してみる</title>
+<meta name="Description" content="jsdo.it - share JavaScript, HTML5 and CSS - " />
+<meta name="Keywords"  content="JavaScript,HTML5,CSS" />
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" type="text/css" media="screen,print" href="style.css" />
+
+</head>
+<body>
+
+<!-- three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.js"></script>
+ 
+<!-- OrbitControls.js -->
+<script src="https://rawcdn.githack.com/mrdoob/three.js/r104/examples/js/controls/OrbitControls.js"></script>
+
+<script src="https://cdn.rawgit.com/squarefeet/ShaderParticleEngine/ecc2886c/build/SPE.js"></script>
+
+<!-- dat.GUI.js -->
+<script src="https://cdn.rawgit.com/mrdoob/three.js/r76/examples/js/libs/dat.gui.min.js"></script>
+
+<script type="x-shader/x-vertex" id="vertexshader">
+attribute float size;
+attribute vec3 customColor;
+varying vec3 vColor;
+void main() {
+    vColor = customColor;
+    vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+    gl_PointSize = size * ( 300.0 / -mvPosition.z );
+    gl_Position = projectionMatrix * mvPosition;
+}
+</script>
+<script type="x-shader/x-fragment" id="fragmentshader">
+uniform vec3 color;
+uniform sampler2D texture;
+varying vec3 vColor;
+void main() {
+    gl_FragColor = vec4( color * vColor, 1.0 );
+    gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
+}
+</script>
+<div id="container"></div>
+<p id="time" style="color:#ff0000; position:absolute; left:0px; top:0px;"></p>
+
+<script src="./index.js"></script>
+
+<body>
+</html>
