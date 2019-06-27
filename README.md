@@ -23,7 +23,7 @@ WebGL Quake Examples
 
 ### 箱根周辺＋震度データ
 
-[![3D地図に震度データを合成してみる](jsdo.it/cx20/assets/screenshot/ljKt.jpg)](https://cx20.github.io/webgl-mountain-examples/jsdo.it/cx20/ljKt/)
+[![3D地図に震度データを合成してみる](jsdo.it/cx20/assets/screenshot/tkxo.jpg)](https://cx20.github.io/webgl-mountain-examples/jsdo.it/cx20/tkxo/)
 
 ### 熊本周辺＋震度データ
 
