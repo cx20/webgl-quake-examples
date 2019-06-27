@@ -1,6 +1,23 @@
-﻿var DOT_SIZE = 3;
-var X_START_POS = 50;
-var Y_START_POS = 20;
+﻿var starttime = new Date("2015/05/10 00:03:25");
+var endtime =new Date("2015/05/18 23:45:43");
+var alltime = starttime.toISOString()+"/"+endtime.toISOString();
+
+var viewer = new Cesium.Viewer('cesiumContainer', {
+    animation : false,
+    infoBox : false,
+    selectionIndicator : false,
+    timeline : false,
+    clock: new Cesium.Clock({
+        startTime : Cesium.JulianDate.fromIso8601(starttime.toISOString()),
+        endTime : Cesium.JulianDate.fromIso8601(endtime.toISOString()),
+        currentTime: Cesium.JulianDate.fromIso8601(starttime.toISOString())
+    }),
+});
+
+//var entities = viewer.entities;
+var dataSource = new Cesium.CustomDataSource('myData');
+var entities = dataSource.entities;
+viewer.dataSources.add(dataSource);
 
 var dataSet = [
     { date:"2015/05/10 00:03:25", lat:35.232, long:139.017, dep:4.5, mag:-0.7 },
@@ -1085,28 +1102,10 @@ function getColorByMag( mag )
     return color;
 }
 
-//セシウムウィジェットを作成
-var widget = new Cesium.CesiumWidget('cesiumContainer');
-
-//Use STK World Terrain
-widget.terrainProvider = new Cesium.CesiumTerrainProvider({
-    url : '//cesiumjs.org/stk-terrain/world',
-    requestWaterMask : true,
-    requestVertexNormals : true
-});
-
-var scene = widget.scene;
+var scene = viewer.scene;
 var primitives = scene.primitives;
 var ellipsoid = scene.globe.ellipsoid;
 
-// Create box and ellipsoid boxes, and use the instance's
-// modelMatrix to scale and position them.
-/*
-var boxGeometry = Cesium.BoxGeometry.fromDimensions({
-    vertexFormat : Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
-    dimensions : new Cesium.Cartesian3(1.0, 1.0, 1.0)
-});
-*/
 var sphereGeometry = new Cesium.SphereGeometry({
     vertexFormat : Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
     radius : 1.0
