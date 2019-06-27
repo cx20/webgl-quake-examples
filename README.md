@@ -25,3 +25,7 @@ WebGL Quake Examples
 
 [![3D地図に震度データを合成してみる](jsdo.it/cx20/assets/screenshot/ljKt.jpg)](https://cx20.github.io/webgl-mountain-examples/jsdo.it/cx20/ljKt/)
 
+### 熊本周辺地図＋震度データ
+
+[![3D地図に震度データを合成してみる（熊本周辺）](jsdo.it/cx20/assets/screenshot/0MBc.jpg)](https://cx20.github.io/webgl-mountain-examples/jsdo.it/cx20/0MBc/)
+
