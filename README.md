@@ -9,7 +9,7 @@ WebGL Quake Examples
 
 [![九州付近の地図に震度データを合成してみる](jsdo.it/cx20/assets/screenshot/eaW9.jpg)](https://cx20.github.io/webgl-quake-examples/jsdo.it/cx20/eaW9/)
 
-### 熊本地震（震度データ１カ月分）
+### 熊本地震（震度データ１カ月分をアニメーション表示）
 
 [![熊本周辺の震度データ１カ月分を可視化してみる](jsdo.it/cx20/assets/screenshot/qkX4.jpg)](https://cx20.github.io/webgl-quake-examples/jsdo.it/cx20/qkX4/)
 
