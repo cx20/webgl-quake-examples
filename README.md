@@ -18,3 +18,10 @@ WebGL Quake Examples
 ### 北海道地図＋震度データ
 
 [![北海道の震度データを可視化してみる](jsdo.it/cx20/assets/screenshot/Uae9.jpg)](https://cx20.github.io/webgl-quake-examples/jsdo.it/cx20/Uae9/)
+
+## Cesium.js サンプル
+
+### 箱根周辺＋震度データ
+
+[![3D地図に震度データを合成してみる](jsdo.it/cx20/assets/screenshot/ljKt.jpg)](https://cx20.github.io/webgl-mountain-examples/jsdo.it/cx20/ljKt/)
+
