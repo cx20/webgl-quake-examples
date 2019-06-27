@@ -1,7 +1,7 @@
 ﻿# webgl-quake-examples
 WebGL Quake Examples
 
-## 震源データ可視化ル
+## three.js による震源データ可視化
 
 ### 九州付近地図＋震度データ
 
@@ -19,7 +19,7 @@ WebGL Quake Examples
 
 [![北海道の震度データを可視化してみる](jsdo.it/cx20/assets/screenshot/Uae9.jpg)](https://cx20.github.io/webgl-quake-examples/jsdo.it/cx20/Uae9/)
 
-## Cesium.js サンプル
+## Cesium.js による震源データ可視化
 
 ### 箱根周辺＋震度データ
 
