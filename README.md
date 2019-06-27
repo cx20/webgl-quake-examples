@@ -23,12 +23,12 @@ WebGL Quake Examples
 
 ### 箱根周辺＋震度データ
 
-[![3D地図に震度データを合成してみる](jsdo.it/cx20/assets/screenshot/tkxo.jpg)](https://cx20.github.io/webgl-mountain-examples/jsdo.it/cx20/tkxo/)
+[![3D地図に震度データを合成してみる](jsdo.it/cx20/assets/screenshot/tkxo.jpg)](https://cx20.github.io/webgl-quake-examples/jsdo.it/cx20/tkxo/)
 
 ### 熊本周辺＋震度データ
 
-[![3D地図に震度データを合成してみる（熊本周辺）](jsdo.it/cx20/assets/screenshot/0MBc.jpg)](https://cx20.github.io/webgl-mountain-examples/jsdo.it/cx20/0MBc/)
+[![3D地図に震度データを合成してみる（熊本周辺）](jsdo.it/cx20/assets/screenshot/0MBc.jpg)](https://cx20.github.io/webgl-quake-examples/jsdo.it/cx20/0MBc/)
 
 ### 北海道周辺＋震度データ
 
-[![3D地図に震度データを合成してみる（北海道地震）](jsdo.it/cx20/assets/screenshot/sTSf.jpg)](https://cx20.github.io/webgl-mountain-examples/jsdo.it/cx20/sTSf/)
+[![3D地図に震度データを合成してみる（北海道地震）](jsdo.it/cx20/assets/screenshot/sTSf.jpg)](https://cx20.github.io/webgl-quake-examples/jsdo.it/cx20/sTSf/)
