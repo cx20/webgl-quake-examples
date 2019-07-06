@@ -1106,10 +1106,17 @@ var scene = viewer.scene;
 var primitives = scene.primitives;
 var ellipsoid = scene.globe.ellipsoid;
 
+var boxGeometry = new Cesium.BoxGeometry({
+    vertexFormat : Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
+    maximum : new Cesium.Cartesian3(1.0, 1.0, 1.0),
+    minimum : new Cesium.Cartesian3(-1.0, -1.0, -1.0)
+});
+/*
 var sphereGeometry = new Cesium.SphereGeometry({
     vertexFormat : Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
     radius : 1.0
 });
+*/
 
 var instances = [];
 var position;
@@ -1147,8 +1154,8 @@ for ( var i = 0; i < dataSet.length; i++ ) {
     color = new Cesium.ColorGeometryInstanceAttribute(colorR, colorG, colorB, 1.0);
     
     var instance = new Cesium.GeometryInstance({
-        //geometry : boxGeometry,
-        geometry : sphereGeometry,
+        geometry : boxGeometry,
+        //geometry : sphereGeometry,
         modelMatrix : modelMatrix,
         attributes : { color : color }
     });
@@ -1196,7 +1203,8 @@ function flyToHakone() {
 function lookAtHakone() {
     var longitude = 139.0 + 0.3;
     var latitude = 35.15 + 0.3;
-    var height = 10000.0;
+    //var height = 10000.0;
+    var height = 1000.0;
     var camera = scene.camera;
     var ellipsoid = Cesium.Ellipsoid.WGS84;
     var eye = ellipsoid.cartographicToCartesian(Cesium.Cartographic.fromDegrees(longitude, latitude - 0.9, height));
@@ -1205,5 +1213,28 @@ function lookAtHakone() {
     camera.lookAt(eye, target, up);
 }
 
-flyToHakone();
 
+function flyToHeadingPitchRoll() {
+/*
+    viewer.camera.flyTo({
+        destination : Cesium.Cartesian3.fromDegrees(139 + 0.5, 35 - 1.0, 100000.0),
+        orientation : {
+            heading : Cesium.Math.toRadians(-20.0),
+            pitch : Cesium.Math.toRadians(-35.0),
+            roll : 0.0
+        }
+    });
+*/
+    viewer.camera.flyTo({
+        destination : Cesium.Cartesian3.fromDegrees(139 + 0.05, 35.15 - 0.0, 7000.0),
+        orientation : {
+            heading : Cesium.Math.toRadians(-20.0),
+            pitch : Cesium.Math.toRadians(-35.0),
+            roll : 0.0
+        }
+    });
+}
+
+//lookAtHakone();
+//flyToHakone();
+flyToHeadingPitchRoll();
