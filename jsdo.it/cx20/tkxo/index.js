@@ -1188,8 +1188,20 @@ function enableInput(scene) {
     controller.enableTilt = true;
     controller.enableLook = true;
 }
-    
-     
+
+function setCenter() {
+    var centerEntity = entities.add({
+        position : Cesium.Cartesian3.fromDegrees(139.01, 35.22, 1000),
+        ellipsoid : {
+            radii : new Cesium.Cartesian3(100000, 100000, 100000),
+            //material : new Cesium.Color(1, 0, 0, 0.1) // for Debug
+            material : new Cesium.Color(0, 0, 0, 0)
+        }
+    });
+    viewer.trackedEntity = centerEntity;
+       
+}
+
 function flyToHakone() {
     var longitude = 139.028 + 0.0;
     var latitude = 35.23 + 0.0;
@@ -1215,16 +1227,6 @@ function lookAtHakone() {
 
 
 function flyToHeadingPitchRoll() {
-/*
-    viewer.camera.flyTo({
-        destination : Cesium.Cartesian3.fromDegrees(139 + 0.5, 35 - 1.0, 100000.0),
-        orientation : {
-            heading : Cesium.Math.toRadians(-20.0),
-            pitch : Cesium.Math.toRadians(-35.0),
-            roll : 0.0
-        }
-    });
-*/
     viewer.camera.flyTo({
         destination : Cesium.Cartesian3.fromDegrees(139 + 0.05, 35.15 - 0.0, 7000.0),
         orientation : {
@@ -1235,6 +1237,7 @@ function flyToHeadingPitchRoll() {
     });
 }
 
+setCenter();
 //lookAtHakone();
 //flyToHakone();
 flyToHeadingPitchRoll();
