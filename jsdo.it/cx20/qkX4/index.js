@@ -4511,8 +4511,6 @@ img.onload = function() {
     // 震度データプロット
     plot(scene, dataSet);
 
-    //drawMatrix(scene);
-
     // GUI
     gui = new dat.GUI();
     let mapSelector = gui.add(window, 'MAP', {
@@ -4539,17 +4537,6 @@ img.onload = function() {
     document.getElementById("container").appendChild(renderer.domElement);
     animate();
 
-/*
-    window.addEventListener('resize', function () {
-        //let width = window.innerWidth;
-        //let height = window.innerHeight;
-        let width = document.body.clientWidth;
-        let height = document.body.clientHeight;
-        camera.aspect = width / height;
-        renderer.setSize(width, height);
-        camera.updateProjectionMatrix();
-    });
-*/
     window.addEventListener('resize', function() {
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -4562,7 +4549,6 @@ img.src = "heightMap.png"; // heightMap.png
 function plot(scene, dataSet) {
     uniforms = {
         color:     { type: "c", value: new THREE.Color( 0xffffff ) },
-        //texture:   { type: "t", value: new THREE.TextureLoader().load( "ball.png" ) }
         texture:   { type: "t", value: new THREE.TextureLoader().load("ball.png") } // ball.png
     };
 
