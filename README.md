@@ -32,4 +32,4 @@ WebGL Quake Examples
 
 ### 北海道地震
 
-[![3D地図に震度データを合成してみる（北海道地震）](assets/screenshot/cesium_kumamoto_2016.jpg)](https://cx20.github.io/webgl-quake-examples/cesium/kumamoto_2016/ "3D地図に震度データを合成してみる（北海道地震）")
+[![3D地図に震度データを合成してみる（北海道地震）](assets/screenshot/cesium_hokkaido_2018.jpg)](https://cx20.github.io/webgl-quake-examples/cesium/hokkaido_2018/ "3D地図に震度データを合成してみる（北海道地震）")
