@@ -1,8 +1,8 @@
-﻿var starttime = new Date("2015/05/10 00:03:25");
-var endtime =new Date("2015/05/18 23:45:43");
-var alltime = starttime.toISOString()+"/"+endtime.toISOString();
+﻿const starttime = new Date("2015/05/10 00:03:25");
+const endtime = new Date("2015/05/18 23:45:43");
+const alltime = starttime.toISOString()+"/"+endtime.toISOString();
 
-var viewer = new Cesium.Viewer('cesiumContainer', {
+const viewer = new Cesium.Viewer('cesiumContainer', {
     animation : false,
     infoBox : false,
     selectionIndicator : false,
@@ -14,12 +14,11 @@ var viewer = new Cesium.Viewer('cesiumContainer', {
     }),
 });
 
-//var entities = viewer.entities;
-var dataSource = new Cesium.CustomDataSource('myData');
-var entities = dataSource.entities;
+const dataSource = new Cesium.CustomDataSource('myData');
+const entities = dataSource.entities;
 viewer.dataSources.add(dataSource);
 
-var dataSet = [
+const dataSet = [
     { date:"2015/05/10 00:03:25", lat:35.232, long:139.017, dep:4.5, mag:-0.7 },
     { date:"2015/05/10 00:04:57", lat:35.218, long:139.031, dep:2.9, mag:0.4 },
     { date:"2015/05/10 00:23:16", lat:35.252, long:139.021, dep:2.5, mag:-0.8 },
@@ -1089,7 +1088,7 @@ var dataSet = [
 
 function getColorByMag( mag )
 {
-    var color = 0x000000;
+    let color = 0x000000;
     if ( mag <= 0 ) {
         color = 0xaaaaaa;  // 灰色
     } else if ( mag > 0 && mag <= 1 ) {
@@ -1102,95 +1101,76 @@ function getColorByMag( mag )
     return color;
 }
 
-var scene = viewer.scene;
-var primitives = scene.primitives;
-var ellipsoid = scene.globe.ellipsoid;
+const scene = viewer.scene;
+const primitives = scene.primitives;
+const ellipsoid = scene.globe.ellipsoid;
 
-var boxGeometry = new Cesium.BoxGeometry({
+const boxGeometry = new Cesium.BoxGeometry({
     vertexFormat : Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
     maximum : new Cesium.Cartesian3(1.0, 1.0, 1.0),
     minimum : new Cesium.Cartesian3(-1.0, -1.0, -1.0)
 });
+
+function plot() {
+    let position;
+    let height = 0.0;
+    //const scale = 250;
+    //const scale = 500;
+    const scale = 5000.0 * 0.01;
+    let colorRgb, colorR, colorG, colorB;
+    let color;
+    
+    let x, y, w;
+    let dateTime;
+    let dateTimeString;
+
+    for ( let i = 0; i < dataSet.length; i++ ) {
+        dateTime = new Date(dataSet[i].date);
+        dateTimeString = dateTime.toISOString();
+        // 座標計算
+        x = dataSet[i].long;
+        y = dataSet[i].lat;
+        w = dataSet[i].mag;
+        
+        // 3D座標取得
+        //height = dataSet[i].dep * 500;
+        height = dataSet[i].dep * 1000;
+    
+        // 色情報取得
+        colorRgb = getColorByMag(dataSet[i].mag);
+        colorR = ((colorRgb & 0xff0000) >> 16) / 255;
+        colorG = ((colorRgb & 0x00ff00) >>  8) / 255;
+        colorB = ((colorRgb & 0x0000ff) >>  0) / 255;
+        //color = new Cesium.Color(colorR, colorG, colorB, 1.0);
+        color = new Cesium.Color(colorR, colorG, colorB, 0.8);
+        //color = new Cesium.Color(colorR, colorG, colorB, 0.5);
+        
+        // 震源データプロット
+        // 球体は頂点数が多い為に大量にプロットするとメモリ不足になる場合があります。
+        // その場合はキューブを試してみてください。
+        entities.add({
+            position : Cesium.Cartesian3.fromDegrees(x, y, height),
+            // 球体
+            ellipsoid : {
+                radii : new Cesium.Cartesian3(scale * w, scale * w, scale * w),
+                material : color,
+                stackPartitions: 10, // 縦方向の分割数
+                slicePartitions: 10  // 横方向の分割数
+            }
 /*
-var sphereGeometry = new Cesium.SphereGeometry({
-    vertexFormat : Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
-    radius : 1.0
-});
+            // キューブ
+            box : {
+                dimensions : new Cesium.Cartesian3(scale * w, scale * w, scale * w),
+                material : color
+            }
 */
-
-var instances = [];
-var position;
-var point3d;
-var origin;
-var translation;
-var matrix;
-var modelMatrix;
-var height = 0.0;
-var scale = 5000.0 * 0.01;
-var colorRgb, colorR, colorG, colorB;
-var color;
-var x, y;
-
-for ( var i = 0; i < dataSet.length; i++ ) {
-    // 座標計算
-    x = dataSet[i].long;
-    y = dataSet[i].lat;
-    w = dataSet[i].mag;
+        });
+    }
     
-    // 3D座標取得
-    //height = dataSet[i].dep * 1000;
-    height = dataSet[i].dep * 500;
-    position = Cesium.Cartesian3.fromDegrees(x, y);
-    point3d = new Cesium.Cartesian3(0.0, 0.0, height);
-    translation = Cesium.Transforms.eastNorthUpToFixedFrame(position);
-    matrix = Cesium.Matrix4.multiplyByTranslation(translation, point3d, new Cesium.Matrix4());
-    modelMatrix = Cesium.Matrix4.multiplyByUniformScale(matrix, scale * w, new Cesium.Matrix4());
-    
-    // 色情報取得
-    colorRgb = getColorByMag(dataSet[i].mag);
-    colorR = ((colorRgb & 0xff0000) >> 16) / 255;
-    colorG = ((colorRgb & 0x00ff00) >>  8) / 255;
-    colorB = ((colorRgb & 0x0000ff) >>  0) / 255;
-    color = new Cesium.ColorGeometryInstanceAttribute(colorR, colorG, colorB, 1.0);
-    
-    var instance = new Cesium.GeometryInstance({
-        geometry : boxGeometry,
-        //geometry : sphereGeometry,
-        modelMatrix : modelMatrix,
-        attributes : { color : color }
-    });
-    
-    instances.push( instance );
-}
-
-primitives.add(new Cesium.Primitive({
-    geometryInstances : instances,
-    appearance : new Cesium.PerInstanceColorAppearance({
-        translucent : false,
-        closed : true
-    })
-}));
-
-function disableInput(scene) {
-    var controller = scene.getScreenSpaceCameraController();
-    controller.enableTranslate = false;
-    controller.enableZoom = false;
-    controller.enableRotate = false;
-    controller.enableTilt = false;
-    controller.enableLook = false;
-}
-
-function enableInput(scene) {
-    var controller = scene.getScreenSpaceCameraController();
-    controller.enableTranslate = true;
-    controller.enableZoom = true;
-    controller.enableRotate = true;
-    controller.enableTilt = true;
-    controller.enableLook = true;
 }
 
 function setCenter() {
-    var centerEntity = entities.add({
+    const centerEntity = entities.add({
         position : Cesium.Cartesian3.fromDegrees(139.01, 35.22, 1000),
         ellipsoid : {
             radii : new Cesium.Cartesian3(100000, 100000, 100000),
@@ -1203,9 +1183,9 @@ function setCenter() {
 }
 
 function flyToHakone() {
-    var longitude = 139.028 + 0.0;
-    var latitude = 35.23 + 0.0;
-    var height = 10000.0;
+    const longitude = 139.028 + 0.0;
+    const latitude = 35.23 + 0.0;
+    const height = 10000.0;
     scene.camera.flyTo({
         destination : Cesium.Cartesian3.fromDegrees(longitude, latitude, height)
     });
@@ -1213,15 +1193,15 @@ function flyToHakone() {
 }
 
 function lookAtHakone() {
-    var longitude = 139.0 + 0.3;
-    var latitude = 35.15 + 0.3;
-    //var height = 10000.0;
-    var height = 1000.0;
-    var camera = scene.camera;
-    var ellipsoid = Cesium.Ellipsoid.WGS84;
-    var eye = ellipsoid.cartographicToCartesian(Cesium.Cartographic.fromDegrees(longitude, latitude - 0.9, height));
-    var target = ellipsoid.cartographicToCartesian(Cesium.Cartographic.fromDegrees(longitude, latitude, 0));
-    var up = Cesium.Cartesian3.UNIT_Z;
+    const longitude = 139.0 + 0.3;
+    const latitude = 35.15 + 0.3;
+    //const height = 10000.0;
+    const height = 1000.0;
+    const camera = scene.camera;
+    const ellipsoid = Cesium.Ellipsoid.WGS84;
+    const eye = ellipsoid.cartographicToCartesian(Cesium.Cartographic.fromDegrees(longitude, latitude - 0.9, height));
+    const target = ellipsoid.cartographicToCartesian(Cesium.Cartographic.fromDegrees(longitude, latitude, 0));
+    const up = Cesium.Cartesian3.UNIT_Z;
     camera.lookAt(eye, target, up);
 }
 
@@ -1237,6 +1217,7 @@ function flyToHeadingPitchRoll() {
     });
 }
 
+plot();
 setCenter();
 //lookAtHakone();
 //flyToHakone();

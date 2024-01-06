@@ -1,8 +1,8 @@
-﻿var starttime = new Date("2016/04/14 21:07:52");
-var endtime =new Date("2016/04/16 16:58:56");
-var alltime = starttime.toISOString()+"/"+endtime.toISOString();
+﻿const starttime = new Date("2016/04/14 21:07:52");
+const endtime =new Date("2016/04/16 16:58:56");
+const alltime = starttime.toISOString()+"/"+endtime.toISOString();
 
-var viewer = new Cesium.Viewer('cesiumContainer', {
+const viewer = new Cesium.Viewer('cesiumContainer', {
     animation : false,
     infoBox : false,
     selectionIndicator : false,
@@ -14,12 +14,12 @@ var viewer = new Cesium.Viewer('cesiumContainer', {
     }),
 });
 
-//var entities = viewer.entities;
-var dataSource = new Cesium.CustomDataSource('myData');
-var entities = dataSource.entities;
+//const entities = viewer.entities;
+const dataSource = new Cesium.CustomDataSource('myData');
+const entities = dataSource.entities;
 viewer.dataSources.add(dataSource);
 
-var dataSet = [
+const dataSet = [
     { date:'2016/04/14 21:07:52', lat:34.9369, long:135.3604, dep:9.6, mag:1.8},
     { date:'2016/04/14 21:17:09', lat:34.1839, long:135.6519, dep:63.6, mag:1.5},
     { date:'2016/04/14 21:19:49', lat:44.9179, long:142.1413, dep:14.2, mag:1},
@@ -2740,7 +2740,7 @@ var dataSet = [
 
 function getColorByMag( mag )
 {
-    var color = 0x000000;
+    let color = 0x000000;
     if ( mag <= 1 ) {
         //color = 0xaaaaaa;  // 灰色
         color = 0xffff70;  // 灰色
@@ -2755,18 +2755,18 @@ function getColorByMag( mag )
 }
 
 function plot() {
-    var position;
-    var height = 0.0;
-    //var scale = 250;
-    var scale = 500;
-    var colorRgb, colorR, colorG, colorB;
-    var color;
+    let position;
+    let height = 0.0;
+    //const scale = 250;
+    let scale = 500;
+    let colorRgb, colorR, colorG, colorB;
+    let color;
     
-    var x, y, w;
-    var dateTime;
-    var dateTimeString;
+    let x, y, w;
+    let dateTime;
+    let dateTimeString;
 
-    for ( var i = 0; i < dataSet.length; i++ ) {
+    for ( let i = 0; i < dataSet.length; i++ ) {
         dateTime = new Date(dataSet[i].date);
         dateTimeString = dateTime.toISOString();
         // 座標計算
@@ -2788,29 +2788,31 @@ function plot() {
         //color = new Cesium.Color(colorR, colorG, colorB, 0.5);
         
         // 震源データプロット
-        // 球体でプロットするとメモリ不足となる為、
-        // キューブでプロットするよう変更
+        // 球体は頂点数が多い為に大量にプロットするとメモリ不足になる場合があります。
+        // その場合はキューブを試してみてください。
         entities.add({
             position : Cesium.Cartesian3.fromDegrees(x, y, height),
-/*
             // 球体
             ellipsoid : {
                 radii : new Cesium.Cartesian3(scale * w, scale * w, scale * w),
-                material : color
+                material : color,
+                stackPartitions: 10, // 縦方向の分割数
+                slicePartitions: 10  // 横方向の分割数
             }
-*/
+/*
             // キューブ
             box : {
                 dimensions : new Cesium.Cartesian3(scale * w, scale * w, scale * w),
                 material : color
             }
+*/
         });
     }
     
 }
 
 function setCenter() {
-    var centerEntity = entities.add({
+    const centerEntity = entities.add({
         //position : Cesium.Cartesian3.fromDegrees(130.8061, 32.7433, 1000), // 2016/04/14 21:26:34 mag:6.1
         position : Cesium.Cartesian3.fromDegrees(130.7648, 32.7539, 1000), // 2016/04/16 01:25:05 mag:6.7
         ellipsoid : {
