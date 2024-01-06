@@ -14,7 +14,7 @@ WebGL Quake Examples
 [![熊本周辺の震度データ１カ月分を可視化してみる](assets/screenshot/threejs_kumamoto_2016_anim.jpg)](https://cx20.github.io/webgl-quake-examples/threejs/kumamot_2016_anim/ "熊本周辺の震度データ１カ月分を可視化してみる")
 
 ### 新燃岳 火山性地震
-[![新燃岳周辺の震度データを可視化してみる](assets/screenshot/shinmoedake_2018.jpg)](https://cx20.github.io/webgl-quake-examples/threejs/shinmoedake_2018/ "新燃岳周辺の震度データを可視化してみる")
+[![新燃岳周辺の震度データを可視化してみる](assets/screenshot/threejs_shinmoedake_2018.jpg)](https://cx20.github.io/webgl-quake-examples/threejs/shinmoedake_2018/ "新燃岳周辺の震度データを可視化してみる")
 
 ### 北海道地震
 
