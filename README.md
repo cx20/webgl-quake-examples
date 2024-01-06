@@ -36,4 +36,4 @@ WebGL Quake Examples
 
 ### 能登半島地震（2024年）
 
-[![能登半島地震（2024年）](assets/screenshot/cesium_noto_2018.jpg)](https://cx20.github.io/webgl-quake-examples/cesium/noto_2024/ "能登半島地震（2024年）")
+[![能登半島地震（2024年）](assets/screenshot/cesium_noto_2024.jpg)](https://cx20.github.io/webgl-quake-examples/cesium/noto_2024/ "能登半島地震（2024年）")
