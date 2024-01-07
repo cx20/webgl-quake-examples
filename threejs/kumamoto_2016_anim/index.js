@@ -4637,7 +4637,7 @@ let pos = 0;
 function render() {
 
     let particles = dataSet.length;
-    if ( pos > particles ) {
+    if ( pos >= particles ) {
         pos = 0; // 時間軸の位置
     }
     let sizes = geometry.attributes.size.array;
