@@ -9,9 +9,9 @@ WebGL Quake Examples
 
 [![熊本地震（2016年）](assets/screenshot/threejs_kumamoto_2016.jpg)](https://cx20.github.io/webgl-quake-examples/threejs/kumamoto_2016/ "熊本地震（2016年）")
 
-### 熊本地震（2016年）（震度データ１カ月分をアニメーション表示）
+### 熊本地震（2016年）（震度データ１カ月分を時系列表示）
 
-[![熊本地震（2016年）（震度データ１カ月分をアニメーション表示）](assets/screenshot/threejs_kumamoto_2016_anim.jpg)](https://cx20.github.io/webgl-quake-examples/threejs/kumamoto_2016_anim/ "熊本地震（2016年）（震度データ１カ月分をアニメーション表示）")
+[![熊本地震（2016年）（震度データ１カ月分を時系列表示）](assets/screenshot/threejs_kumamoto_2016_time_anim.jpg)](https://cx20.github.io/webgl-quake-examples/threejs/kumamoto_2016_time_anim/ "熊本地震（2016年）（震度データ１カ月分を時系列表示）")
 
 ### 新燃岳 火山性地震（2018年）
 [![新燃岳 火山性地震（2018年）](assets/screenshot/threejs_shinmoedake_2018.jpg)](https://cx20.github.io/webgl-quake-examples/threejs/shinmoedake_2018/ "新燃岳 火山性地震（2018年）")
@@ -19,6 +19,10 @@ WebGL Quake Examples
 ### 北海道地震（2018年）
 
 [![北海道地震（2018年）](assets/screenshot/threejs_hokkaido_2018.jpg)](https://cx20.github.io/webgl-quake-examples/threejs/hokkaido_2018/ "北海道地震（2018年）")
+
+### 能登半島地震（2024年）
+
+[![能登半島地震（2024年）](assets/screenshot/threejs_noto_2024.jpg)](https://cx20.github.io/webgl-quake-examples/threejs/noto_2024/ "能登半島地震（2024年）")
 
 ## Cesium.js サンプル
 
